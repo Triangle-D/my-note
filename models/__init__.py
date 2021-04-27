@@ -8,4 +8,4 @@ def create_tables():
     if not db.get_tables():
         db.create_tables([Notebook, Note])
     if not Notebook.select().count():
-        Notebook.create(name='默认笔记本', description='系统创建的默认笔记本')
+        Notebook.create(name='默认便签集', description='系统创建的默认便签集')

@@ -16,3 +16,51 @@ KeyError: 'code-block'
     format_val = not self.editor.content_format['code-block']
 KeyError: 'code-block'
 
+
+[2021-04-27 16:57:41] Traceback (most recent call last):
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\nav_panel.py", line 29, in _create_note
+    pub.sendMessage('note.created', note=note)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\publisher.py", line 216, in sendMessage
+    topicObj.publish(**msgData)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\topicobj.py", line 452, in publish
+    self.__sendMessage(msgData, topicObj, msgDataSubset)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\topicobj.py", line 482, in __sendMessage
+    listener(data, self, allData)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\listener.py", line 237, in __call__
+    cb(**kwargs)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\list_panel.py", line 26, in _on_note_created
+    self.add([note])
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\list_panel.py", line 23, in add
+    self.note_list_panel.add(notes)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\note_list_panel.py", line 32, in add
+    preview_panels = list((NotePreviewPanel(self, note), 0, wx.EXPAND) for note in notes)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\note_list_panel.py", line 32, in <genexpr>
+    preview_panels = list((NotePreviewPanel(self, note), 0, wx.EXPAND) for note in notes)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\note_preview_panel.py", line 7, in __init__
+    self._init_ui()
+TypeError: _init_ui() missing 1 required positional argument: 'note'
+
+
+[2021-04-27 16:57:54] Traceback (most recent call last):
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\nav_panel.py", line 29, in _create_note
+    pub.sendMessage('note.created', note=note)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\publisher.py", line 216, in sendMessage
+    topicObj.publish(**msgData)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\topicobj.py", line 452, in publish
+    self.__sendMessage(msgData, topicObj, msgDataSubset)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\topicobj.py", line 482, in __sendMessage
+    listener(data, self, allData)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\venv\lib\site-packages\pubsub\core\listener.py", line 237, in __call__
+    cb(**kwargs)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\list_panel.py", line 26, in _on_note_created
+    self.add([note])
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\list_panel.py", line 23, in add
+    self.note_list_panel.add(notes)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\note_list_panel.py", line 32, in add
+    preview_panels = list((NotePreviewPanel(self, note), 0, wx.EXPAND) for note in notes)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\note_list_panel.py", line 32, in <genexpr>
+    preview_panels = list((NotePreviewPanel(self, note), 0, wx.EXPAND) for note in notes)
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\note_preview_panel.py", line 7, in __init__
+    self._init_ui()
+TypeError: _init_ui() missing 1 required positional argument: 'note'
+

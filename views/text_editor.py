@@ -2,13 +2,18 @@ import wx
 import os
 from .webview import Webview
 from .text_editor_toolbar import TextEditorToolbar
+from pubsub import pub
 
 
 class TextEditor(wx.Panel):
     def __init__(self, parent):
         super().__init__(parent, style=wx.BORDER_NONE)
         self._init_ui()
-        self.webview.set_js_bindings([('pyOnFormatChanged', self._on_format_changed)])
+        self._init_event()
+        self.webview.set_js_bindings(
+            [('pyOnFormatChanged', self._on_format_changed),
+             ('pyOnContentChanged', self._on_content_changed)]
+        )
         self.content_format = {
             'bold': False,
             'font': False,
@@ -17,6 +22,18 @@ class TextEditor(wx.Panel):
             'background': False,
             'code-block': False
         }
+        self.note = None
+
+    def _init_event(self):
+        pub.subscribe(self.load_note, 'note.selected')
+        pub.subscribe(self.clear_note, 'note.empty')
+        self.tc_title.Bind(wx.EVT_TEXT, self._on_title_changed)
+
+    def _on_title_changed(self, _):
+        if self.note:
+            self.note.title = self.tc_title.GetValue().strip()
+            self.note.save()
+            pub.sendMessage('note.updated', note=self.note)
 
     def _init_ui(self):
         self.main_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -46,7 +63,7 @@ class TextEditor(wx.Panel):
 
         line = wx.StaticLine(self, size=(-1, 1))
         line.SetBackgroundColour("#e5e5e5")
-        self.main_sizer.Add(line, flag=wx.EXPAND|wx.TOP, border=25)
+        self.main_sizer.Add(line, flag=wx.EXPAND|wx.TOP, border=10)
 
     def format_content(self, format_command, format_arg):
         self.webview.SetFocus()
@@ -61,3 +78,28 @@ class TextEditor(wx.Panel):
                 self.content_format[key] = format_val
                 changed_format[key] = format_val
         self.toolbar.display_format(changed_format)
+
+    def _on_content_changed(self, content):
+        if self.note:
+            self.note.set_content(content)
+            pub.sendMessage('note.updated', note=self.note)
+
+    def load_note(self, note, keyword):
+        self.note = note
+        self.tc_title.ChangeValue(self.note.title)
+        self.webview.run_js('quill.loadContent', self.note.content)
+        self._reset_format()
+        if keyword:
+            self.webview.run_js('quill.findAll', keyword)
+
+    def clear_note(self):
+        if self.note:
+            self.note = None
+            self.tc_title.ChangeValue('')
+            self.webview.run_js('quill.loadContent','')
+            self._reset_format()
+
+    def _reset_format(self):
+        for key in self.content_format:
+            self.content_format[key] = False
+        self.toolbar.display_format(self.content_format.copy())

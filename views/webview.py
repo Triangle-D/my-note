@@ -17,9 +17,10 @@ class Webview(wx.Panel):
             settings['external_message_pump'] = True
         if wx.Platform == "__WXMSW__":
             cef.DpiAware.EnableHighDpiSupport()
-            wx.CallAfter(self._fix_keyboard)
         if wx.Platform == "__WXGTK__":
             cef.WindowUtils.InstallX11ErrorHandlers()
+        if wx.Platform == "__WXMSW__":
+            wx.CallAfter(self._fix_keyboard)
         cef.Initialize(settings=settings)
 
     def _init_browser(self):

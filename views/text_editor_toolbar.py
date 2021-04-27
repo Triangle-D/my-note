@@ -20,15 +20,6 @@ class _ToolColor(wx.Panel):
         self.color_indicator.SetBackgroundColour(color)
 
 
-class _ToolBackground(wx.Panel):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self._init_ui()
-
-    def _init_ui(self):
-        self.main_sizer = wx.BoxSizer
-
-
 class TextEditorToolbar(wx.Panel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -85,16 +76,33 @@ class TextEditorToolbar(wx.Panel):
         self.editor.format_content('background', color)
         self._display_background_format(color)
 
+    def _on_code_block_clicked(self, e):
+        format_val = not self.editor.content_format['code-block']
+        self.editor.format_content('code-block',format_val)
+        self._display_code_block_format(format_val)
+
     def _display_bold_format(self, format_val):
         bitmap = images.tool_bold_active.Bitmap if format_val else images.tool_bold.Bitmap
         self.tool_bold.SetBitmap(bitmap)
 
+    def _display_code_block_format(self, format_val):
+        bitmap = images.tool_code_block_active.Bitmap if format_val else images.tool_code_block.Bitmap
+        self.tool_code_block.SetBitmap(bitmap)
+
     def _display_font_format(self, format_val):
-        index = 0 if format_val is False else self.tool_font_name.GetItems().index(format_val)
+        if format_val is False:
+            index = 0
+        elif format_val in self.tool_font_name.GetItems():
+            index = self.tool_font_name.GetItems().index(format_val)
+        else:
+            index = self.tool_font_name.Append(format_val)
         self.tool_font_name.SetSelection(index)
 
     def _display_size_format(self, format_val):
-        index = 0 if format_val is False else self.tool_font_size.GetItems().index(format_val[:-2])
+        if format_val is False or format_val not in self.tool_font_size.GetItems():
+            index = 0
+        else:
+            index = self.tool_font_size.GetItems().index(format_val[:-2])
         self.tool_font_size.SetSelection(index)
 
     def _display_color_format(self, color):
@@ -117,12 +125,3 @@ class TextEditorToolbar(wx.Panel):
             self._display_background_format(changed_format.pop('background'))
         if 'code-block' in changed_format:
             self._display_code_block_format(changed_format.pop('code-block'))
-
-    def _on_code_block_clicked(self, e):
-        format_val = not self.editor.content_format['code-block']
-        self.editor.format_content('code-block', format_val)
-        self._display_code_block_format(format_val)
-
-    def _display_code_block_format(self, format_val):
-        bitmap = images.tool_code_block_active.Bitmap if format_val else images.tool_code_block.Bitmap
-        self.tool_code_block.SetBitmap(bitmap)
