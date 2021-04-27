@@ -1,0 +1,18 @@
+
+[2021-04-26 16:37:04] Traceback (most recent call last):
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\text_editor_toolbar.py", line 80, in _on_code_block_clicked
+    format_val = not self.editor.content_format['code-block']
+KeyError: 'code-block'
+
+
+[2021-04-26 16:37:14] Traceback (most recent call last):
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\text_editor_toolbar.py", line 80, in _on_code_block_clicked
+    format_val = not self.editor.content_format['code-block']
+KeyError: 'code-block'
+
+
+[2021-04-26 16:37:40] Traceback (most recent call last):
+  File "E:\1 学习资料\1 程序设计综合实验\my-note\views\text_editor_toolbar.py", line 80, in _on_code_block_clicked
+    format_val = not self.editor.content_format['code-block']
+KeyError: 'code-block'
+
